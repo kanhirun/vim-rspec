@@ -52,7 +52,7 @@ function! PushCurrentOuterSpecFile()
 endfunction
 
 function! TryPopOuterSpecFile()
-  let last_spec_file = get(s:outer_specs, -1)
+  let last_spec_file = get(s:outer_spec_files, -1)
 
   call s:RunSpecs(last_spec_file)
   if v:shell_error == 0
