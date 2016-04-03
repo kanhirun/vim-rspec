@@ -67,6 +67,11 @@ function! PushNearestOuterSpecFile()
   call s:RunSpecs(nearest_spec_file_with_line)
 endfunction
 
+function! RunLastOuterSpecFile()
+  let last_outer_spec_file = get(s:outer_spec_files, -1)
+  call s:RunSpecs(last_outer_spec_file)
+endfunction
+
 " === local functions ===
 
 function! s:RunSpecs(spec_location)
