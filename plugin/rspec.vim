@@ -2,6 +2,8 @@ let s:plugin_path = expand("<sfile>:p:h:h")
 let s:default_command = "rspec {spec}"
 let s:force_gui = 0
 
+let s:outer_spec_files = []
+
 if !exists("g:rspec_runner")
   let g:rspec_runner = "os_x_terminal"
 endif
@@ -36,6 +38,33 @@ function! RunLastSpec()
   if exists("s:last_spec")
     call s:RunSpecs(s:last_spec)
   endif
+endfunction
+
+function! ShowOuterSpecFiles()
+  echo s:outer_spec_files
+endfunction
+
+function! PushCurrentOuterSpecFile()
+  let current_spec = s:CurrentFilePath()
+
+  call add(s:outer_spec_files, current_spec)
+  call s:RunSpecs(current_spec)
+endfunction
+
+function! TryPopOuterSpecFile()
+  let last_spec_file = get(s:outer_specs, -1)
+
+  call s:RunSpecs(last_spec_file)
+  if v:shell_error == 0
+    call remove(s:outer_spec_files, -1)
+  endif
+endfunction
+
+function! PushNearestOuterSpecFile()
+  let nearest_spec_file_with_line = s:CurrentFilePath() . ":" . line(".")
+
+  call add(s:outer_spec_files, nearest_spec_file_with_line)
+  call s:RunSpecs(nearest_spec_file_with_line)
 endfunction
 
 " === local functions ===
