@@ -48,7 +48,6 @@ function! PushCurrentOuterSpecFile()
   let current_spec = s:CurrentFilePath()
 
   call add(s:outer_spec_files, current_spec)
-  call s:RunSpecs(current_spec)
 endfunction
 
 function! TryPopOuterSpecFile()
@@ -64,7 +63,6 @@ function! PushNearestOuterSpecFile()
   let nearest_spec_file_with_line = s:CurrentFilePath() . ":" . line(".")
 
   call add(s:outer_spec_files, nearest_spec_file_with_line)
-  call s:RunSpecs(nearest_spec_file_with_line)
 endfunction
 
 function! RunLastOuterSpecFile()
